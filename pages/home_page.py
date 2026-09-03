@@ -1,16 +1,15 @@
-# pages/home_page.py
+from appium_flutter_finder.flutter_finder import FlutterFinder, FlutterElement
 
-from appium.webdriver.common.appiumby import AppiumBy
-from pages.base_page import BasePage
+finder = FlutterFinder()
 
-class HomePage(BasePage):
-    # Locators
-    NAV_CART_BUTTON = (AppiumBy.XPATH, "//*[@text='سلة التسوق']")
+class HomePage:
+    def __init__(self, driver):
+        self.driver = driver
 
-    # Actions
-    def select_pajama_product(self):
-        # Automatically scrolls down until it finds the pajama and clicks it!
-        self.scroll_and_click("بجامة بأكمام واسعة")
+    # Key from Markdown: tab_account
+    ACCOUNT_TAB = finder.by_value_key("tab_account")
 
-    def open_cart_from_bottom_nav(self):
-        self.click_element(self.NAV_CART_BUTTON)
+    def go_to_account_tab(self):
+        self.driver.execute_script('flutter:waitFor', self.ACCOUNT_TAB)
+        element = FlutterElement(self.driver, self.ACCOUNT_TAB)
+        element.click()
